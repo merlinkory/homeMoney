@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('costs', function (Blueprint $table) {
             $table->id();
-            $table->integer('coast_group_id');
-            $table->decimal('amount',2,10);
+            $table->integer('user_id');
+            $table->integer('cost_group_id');
+            $table->decimal('amount',12,2);
             $table->string('currency',3);
             $table->string('description', 255)->nullable();
             $table->timestamps();
+
+
         });
     }
 
