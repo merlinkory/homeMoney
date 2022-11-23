@@ -40,15 +40,13 @@ class UserController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            //TODO: response error
         }
 
         return $user->createToken($request->token_name,['finance'])->plainTextToken;
     }
 
-    protected function userValidate($userData){
+    protected function userValidate(array $userData){
         return Validator::make($userData,[
             'email' => ['required','email'],
             'password' => ['required']

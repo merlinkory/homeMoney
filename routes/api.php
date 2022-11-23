@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CostController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,6 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register',[UserController::class,'store']);
 
 Route::post('/tokens/create', [UserController::class, 'createToken']);
+
+Route::post('/costs', [CostController::class, 'store'])->middleware(['auth:sanctum']);
+Route::delete('/costs/{id}', [CostController::class, 'destroy'])->middleware(['auth:sanctum']);
+Route::put('/costs/{id}', [CostController::class, 'update'])->middleware(['auth:sanctum']);
+Route::get('/costs', [CostController::class, 'index'])->middleware(['auth:sanctum']);
 
 Route::get('/test_token',function(Request $request){
 
