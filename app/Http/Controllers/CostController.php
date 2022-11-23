@@ -2,16 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Cost;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class CostController extends Controller
 {
 
     public function index (){
-        $costs = Cost::all();
 
-        return response(['code' => 1, 'data'=> $costs->toArray()],200)->header('Content-Type', 'application/json');
+//        $costs = Cost::where('user_id',Auth::id())->get();
+
+        $costs = DB::table('costs')
+            ->join('cost_groups','costs.cost_group_id', 'cost_groups.id')
+            ->select('costs.*', 'cost_groups.name')
+            ->where('costs.user_id','=',Auth::id())
+            ->orderBy('costs.date', 'asc')
+            ->get();
+
+        $output = [];
+        foreach ($costs as $cost){
+            $costDate = Carbon::create($cost->date)->toDateString();
+            $output[$costDate]['costs'][] = [
+                'name' => $cost->name,
+                'amount' => $cost->amount,
+                'currency' => $cost->currency
+            ];
+        }
+
+        return response(['code' => 1, 'data'=> $output],200)->header('Content-Type', 'application/json');
 
     }
     public function store (Request $request){
@@ -22,14 +44,14 @@ class CostController extends Controller
         }
 
         $cost = Cost::create([
-            'user_id' => $request->user_id,
+            'user_id' => Auth::id(),
             'cost_group_id' => $request->cost_group_id,
             'amount' => $request->amount,
             'currency' => $request->currency,
             'date' => $request->date
         ]);
 
-        dd($cost->toArray());
+        return response(['code' => 1, 'data'=> $cost],200)->header('Content-Type', 'application/json');
 
     }
 
@@ -64,7 +86,6 @@ class CostController extends Controller
 
     protected function costValidate(array $costData){
         return Validator::make($costData,[
-            'user_id' => 'required',
             'cost_group_id' => 'required',
             'amount' => 'required',
             'currency' => 'required',

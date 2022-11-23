@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CostController;
+use App\Http\Controllers\CostGroupController;
+use App\Http\Controllers\CurrencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +17,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/clientarea', function () {
     return view('vue');
-});
+})->middleware(['auth:sanctum']);;
+
+Route::get('/clientarea/cost_list', function () {
+    return view('vue');
+})->middleware(['auth:sanctum']);;
+
+Route::get('/clientarea/create', function () {
+    return view('vue');
+})->middleware(['auth:sanctum']);;
 
 
+Route::get('/', function () {
+    return view('welcome');
+})->name('login');
+
+Route::post('/login', [UserController::class, 'login']);
+Route::get('/logout', [UserController::class, 'logout']);
+
+//Costs
+Route::post('/costs', [CostController::class, 'store'])->middleware(['auth:sanctum']);
+Route::delete('/costs/{id}', [CostController::class, 'destroy'])->middleware(['auth:sanctum']);
+Route::put('/costs/{id}', [CostController::class, 'update'])->middleware(['auth:sanctum']);
+Route::get('/costs', [CostController::class, 'index'])->middleware(['auth:sanctum']);
+
+//CstGroups
+Route::get('cost-groups/{user_id}',[CostGroupController::class,'index'])->middleware(['auth:sanctum']);
+
+//currency
+Route::get('currencies',[CurrencyController::class,'index'])->middleware(['auth:sanctum']);;

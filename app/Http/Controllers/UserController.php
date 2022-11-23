@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -44,6 +45,34 @@ class UserController extends Controller
         }
 
         return $user->createToken($request->token_name,['finance'])->plainTextToken;
+    }
+
+    public function login(Request $request){
+        if($this->userValidate($request->all())->fails()){
+            return response(['code' => 2, 'message'=> 'user data invalid'],200)->header('Content-Type', 'application/json');
+        }
+
+        if(Auth::check()){
+            return redirect('/clientarea');
+        }
+
+        $user = User::where('email',$request->email)->first();
+
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            return redirect('/')->withErrors([
+                'email' => 'auth fail'
+            ]);
+        }
+
+        auth()->login($user, true);
+
+        return redirect('/clientarea');
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect('/');
     }
 
     protected function userValidate(array $userData){
