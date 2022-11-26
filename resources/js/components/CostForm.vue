@@ -1,15 +1,16 @@
 <template>
-    <div>
-        <form @submit.prevent="create">
+    <div class="form_wrapper">
+        <form @submit.prevent="create" class="cost_form">
             <input type="date" v-model="costDate"><br/>
-            <input placeholder="выбирите группу расходов" v-model="costGroup" list="cost_groups"><br/>
+            <input type="text" placeholder="выбирите группу расходов" v-model="costGroup" list="cost_groups"><br/>
             <datalist id="cost_groups">
                 <option v-for="group in costGroups">{{group.name}}</option>
             </datalist>
-            <input placeholder="amount" v-model="costAmount"><br/>
+            <input placeholder="amount" type="number" v-model="costAmount"><br/>
             <select v-model="costCurrency">
-                <option v-for="currency in currencies" v-bind:value="currency">{{currency}}</option>
+                <option selected v-for="currency in currencies" v-bind:value="currency">{{currency}}</option>
             </select><br/>
+            <input placeholder="Описание затрат" type="text" v-model="costDescription"><br/>
             <button>create</button>
         </form>
     </div>
@@ -20,10 +21,12 @@ export default {
     name: "CostForm",
     data(){
         return{
+
             costGroup: '',
             costAmount: '',
             costCurrency: '',
-            costDate: '',
+            costDescription: '',
+            costDate: new Date().toISOString().substr(0, 10),
             costGroups: [],
             currencies: []
         }
@@ -36,10 +39,16 @@ export default {
         },
         async getCurrencies(){
             let response = await axios.get('/currencies');
-            this.currencies =response.data.data;
+            this.currencies = response.data.data;
+            this.costCurrency = this.currencies[0];
 
         },
         async create(){
+
+            if(this.costAmount === '' || this.costGroup === ''){
+                alert('Заполните обязательные поля');
+                return;
+            }
             let cost_group_id = this.getCostGroupId();
             if(cost_group_id === -1){
                 alert('невозможно получить группу');
@@ -50,16 +59,20 @@ export default {
                 cost_group_id: cost_group_id,
                 amount: this.costAmount,
                 currency: this.costCurrency,
-                date: this.costDate
+                date: this.costDate,
+                description: this.costDescription,
             };
 
-            let response = axios.post('/costs', JSON.stringify(payload),{
+            let response = await axios.post('/costs', JSON.stringify(payload),{
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log(response.data);
-            console.log(payload);
+
+            if(response.status === 200){
+                this.costAmount = 0; this.costCurrency = this.costDescription = '';
+                alert("затраты созданы!");
+            }
         },
         getCostGroupId(){
             for(let i=0; i<this.costGroups.length; i++){
@@ -79,5 +92,12 @@ export default {
 </script>
 
 <style scoped>
-
+.form_wrapper{
+    text-align: center;
+}
+.cost_form input, select, button{
+    width: 80%;
+    font-size: 100%;
+    margin-top: 10px;
+}
 </style>

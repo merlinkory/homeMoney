@@ -12,14 +12,16 @@ use Illuminate\Support\Facades\DB;
 class CostController extends Controller
 {
 
-    public function index (){
+    public function index (Request $request){
 
-//        $costs = Cost::where('user_id',Auth::id())->get();
+        $cb = new Carbon(); // Carbon init
+        $date = $cb->subDays($request->subdays);
 
         $costs = DB::table('costs')
             ->join('cost_groups','costs.cost_group_id', 'cost_groups.id')
             ->select('costs.*', 'cost_groups.name')
             ->where('costs.user_id','=',Auth::id())
+            ->where('costs.date','>', $date)
             ->orderBy('costs.date', 'asc')
             ->get();
 
@@ -48,6 +50,7 @@ class CostController extends Controller
             'cost_group_id' => $request->cost_group_id,
             'amount' => $request->amount,
             'currency' => $request->currency,
+            'description' => $request->description,
             'date' => $request->date
         ]);
 

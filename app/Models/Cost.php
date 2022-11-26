@@ -10,6 +10,6 @@ class Cost extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'cost_group_id', 'amount', 'currency', 'date'
+        'user_id', 'cost_group_id', 'amount', 'currency', 'date', 'description'
     ];
 }

@@ -38,10 +38,11 @@ Route::post('/login', [UserController::class, 'login']);
 Route::get('/logout', [UserController::class, 'logout']);
 
 //Costs
+Route::get('/costs/{subdays}', [CostController::class, 'index'])->middleware(['auth:sanctum']);
 Route::post('/costs', [CostController::class, 'store'])->middleware(['auth:sanctum']);
 Route::delete('/costs/{id}', [CostController::class, 'destroy'])->middleware(['auth:sanctum']);
 Route::put('/costs/{id}', [CostController::class, 'update'])->middleware(['auth:sanctum']);
-Route::get('/costs', [CostController::class, 'index'])->middleware(['auth:sanctum']);
+
 
 //CstGroups
 Route::get('cost-groups/{user_id}',[CostGroupController::class,'index'])->middleware(['auth:sanctum']);
