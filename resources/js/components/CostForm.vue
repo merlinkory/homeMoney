@@ -99,5 +99,6 @@ export default {
     width: 80%;
     font-size: 100%;
     margin-top: 10px;
+    font-size: 32px;
 }
 </style>
