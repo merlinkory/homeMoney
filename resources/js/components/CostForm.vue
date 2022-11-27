@@ -11,7 +11,7 @@
                 <option selected v-for="currency in currencies" v-bind:value="currency">{{currency}}</option>
             </select><br/>
             <input placeholder="Описание затрат" type="text" v-model="costDescription"><br/>
-            <el-button>Создать</el-button>
+            <button>Создать</button>
         </form>
     </div>
 </template>
@@ -39,7 +39,9 @@ export default {
         },
         async getCurrencies(){
             let response = await axios.get('/currencies');
-            this.currencies = response.data.data;
+            for(let key in response.data.data){
+                this.currencies.push(key)
+            }
             this.costCurrency = this.currencies[0];
 
         },
