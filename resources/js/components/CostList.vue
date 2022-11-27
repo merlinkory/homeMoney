@@ -10,7 +10,7 @@
                 {{cost.name}}
             </el-col>
             <el-col :span="8">
-                {{cost.amount}}
+                <strong>{{getParseCurrencyValue(cost.amount,cost.currency)}}</strong>
             </el-col>
             <el-col :span="3">
                 {{cost.currency}}
@@ -22,6 +22,11 @@
                 {{cost.description}}
             </el-col>
         </el-row>
+        <ul>
+            <li v-for="(value, currency) in data.total">
+                <strong>{{getParseCurrencyValue(value, currency)}}</strong> {{currency}}
+            </li>
+        </ul>
     </div>
 </template>
 
@@ -34,6 +39,9 @@ export default {
         }
     },
     methods:{
+        getParseCurrencyValue(amount, currencyCode){
+            return new Intl.NumberFormat("ru", {currency: currencyCode}).format(amount);
+        },
         async deleteCost(id){
             if(!confirm('Вы уверены в удаление ?')) return;
 

@@ -28,13 +28,16 @@ class CostController extends Controller
         $output = [];
         foreach ($costs as $cost){
             $costDate = Carbon::create($cost->date)->toDateString();
+            if(!isset($output[$costDate]['total']))$output[$costDate]['total'] = [];
             $output[$costDate]['costs'][] = [
                 'id' => $cost->id,
                 'name' => $cost->name,
-                'amount' => $cost->amount,
+                'amount' => $cost->amount * 1,
                 'currency' => $cost->currency,
                 'description' => $cost->description
             ];
+            if(!isset($output[$costDate]['total'][$cost->currency])) $output[$costDate]['total'][$cost->currency] = 0;
+            $output[$costDate]['total'][$cost->currency] += $cost->amount;
         }
 
         return response(['code' => 1, 'data'=> $output],200)->header('Content-Type', 'application/json');
