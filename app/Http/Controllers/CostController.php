@@ -32,7 +32,8 @@ class CostController extends Controller
                 'id' => $cost->id,
                 'name' => $cost->name,
                 'amount' => $cost->amount,
-                'currency' => $cost->currency
+                'currency' => $cost->currency,
+                'description' => $cost->description
             ];
         }
 

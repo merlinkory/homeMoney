@@ -6,6 +6,10 @@ import *  as VueRouter from 'vue-router';
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 
+// element plus
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 import CostList from './components/CostList.vue';
 import CostForm from './components/CostForm.vue';
 
@@ -21,4 +25,4 @@ const router = VueRouter.createRouter({
 
 import App from './components/App.vue';
 
-createApp(App).use(router).mount("#app");
+createApp(App).use(ElementPlus).use(router).mount("#app");

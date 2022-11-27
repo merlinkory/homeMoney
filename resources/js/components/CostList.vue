@@ -1,9 +1,27 @@
 <template>
     <div v-for="(data, date) in costList">
-        <h3>{{ date }}</h3>
-        <ul>
-            <li v-for="cost in data.costs">{{cost.name}} ({{cost.amount}} {{cost.currency}})  <button @click="deleteCost(cost.id)">X</button></li>
-        </ul>
+        <el-row>
+            <el-col class="cost_date">
+                {{ date }}
+            </el-col>
+        </el-row>
+        <el-row v-for="cost in data.costs">
+            <el-col :span="10">
+                {{cost.name}}
+            </el-col>
+            <el-col :span="8">
+                {{cost.amount}}
+            </el-col>
+            <el-col :span="3">
+                {{cost.currency}}
+            </el-col>
+            <el-col :span="3">
+                <el-button type="danger" circle @click="deleteCost(cost.id)">X</el-button>
+            </el-col>
+            <el-col class="cost_description">
+                {{cost.description}}
+            </el-col>
+        </el-row>
     </div>
 </template>
 
@@ -44,5 +62,11 @@ export default {
 </script>
 
 <style scoped>
-
+.cost_date{
+    font-weight: bold;
+    font-size: 24px;
+}
+.cost_description{
+    font-style: italic;
+}
 </style>

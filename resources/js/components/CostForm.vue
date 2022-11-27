@@ -11,7 +11,7 @@
                 <option selected v-for="currency in currencies" v-bind:value="currency">{{currency}}</option>
             </select><br/>
             <input placeholder="Описание затрат" type="text" v-model="costDescription"><br/>
-            <button>create</button>
+            <el-button>Создать</el-button>
         </form>
     </div>
 </template>
@@ -70,7 +70,7 @@ export default {
             });
 
             if(response.status === 200){
-                this.costAmount = 0; his.costDescription = '';
+                this.costAmount = 0; this.costDescription = '';
                 alert("затраты созданы!");
             }
         },
