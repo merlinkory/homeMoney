@@ -5,7 +5,7 @@
                 {{ date }}
             </el-col>
         </el-row>
-        <el-row v-for="cost in data.costs">
+        <el-row v-for="cost in data.costs" class="cost_row">
             <el-col :span="10">
                 {{cost.name}}
             </el-col>
@@ -47,7 +47,7 @@ export default {
         },
         async getCosts(){
             let response = await axios.get('/costs/2');
-            if(response.status == 200){
+            if(response.status === 200){
                 this.costList = response.data.data;
                 console.log(response.data);
             }else{
@@ -68,5 +68,10 @@ export default {
 }
 .cost_description{
     font-style: italic;
+}
+.cost_row{
+    border: 1px solid;
+    margin-top: 10px;
+    padding: 5px;
 }
 </style>
