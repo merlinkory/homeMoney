@@ -70,7 +70,7 @@ export default {
             });
 
             if(response.status === 200){
-                this.costAmount = 0; this.costCurrency = this.costDescription = '';
+                this.costAmount = 0; his.costDescription = '';
                 alert("затраты созданы!");
             }
         },

@@ -29,6 +29,7 @@ class CostController extends Controller
         foreach ($costs as $cost){
             $costDate = Carbon::create($cost->date)->toDateString();
             $output[$costDate]['costs'][] = [
+                'id' => $cost->id,
                 'name' => $cost->name,
                 'amount' => $cost->amount,
                 'currency' => $cost->currency
