@@ -1,7 +1,7 @@
 <template>
     <div>
         <form @submit.prevent="getReportData()">
-            <label>Месяу: </label>
+            <label>Месяц: </label>
             <select v-model="reportMonth">
                 <option value="1">Январь</option>
                 <option value="2">Февраль</option>
@@ -15,7 +15,7 @@
                 <option value="10">Октябрь</option>
                 <option value="11">Ноябрь</option>
                 <option value="12">Декабрь</option>
-            </select>
+            </select> &nbsp;&nbsp;&nbsp;
             <label>Год: </label>
             <select v-model="reportYear">
                 <option value="2022">2022</option>
@@ -32,10 +32,10 @@
         <h3>{{currency}}</h3>
         <ul>
             <li v-for="(amount, groupName) in data.groups">
-                {{groupName}} <strong>{{amount}}</strong>
+                {{groupName}}: <strong>{{getParseCurrencyValue(amount,currency)}}</strong>
             </li>
         </ul>
-        <strong>Total {{data.total}}</strong> {{currency}}
+        Total: <strong>{{getParseCurrencyValue(data.total,currency)}}</strong> {{currency}}
     </div>
 </template>
 
@@ -67,6 +67,9 @@ export default {
             }else{
                 console.log('Failed to load report data...');
             }
+        },
+        getParseCurrencyValue(amount, currencyCode){
+            return new Intl.NumberFormat("ru", {currency: currencyCode}).format(amount);
         }
     },
     mounted() {
