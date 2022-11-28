@@ -12,10 +12,12 @@ import 'element-plus/dist/index.css'
 
 import CostList from './components/CostList.vue';
 import CostForm from './components/CostForm.vue';
+import CostReport from './components/CostReport.vue';
 
 const routes = [
     {path: '/', component: CostList},
     {path: '/create', component: CostForm},
+    {path: '/report', component: CostReport},
 ]
 
 const router = VueRouter.createRouter({

@@ -29,7 +29,7 @@ Route::post('/costs', [CostController::class, 'store'])->middleware(['auth:sanct
 Route::delete('/costs/{id}', [CostController::class, 'destroy'])->middleware(['auth:sanctum']);
 Route::put('/costs/{id}', [CostController::class, 'update'])->middleware(['auth:sanctum']);
 Route::get('/costs', [CostController::class, 'index'])->middleware(['auth:sanctum']);
-
+Route::post('/costs/report',[CostController::class,'report']);
 
 //CstGroups
 Route::get('costgroups/{user_id}',[CostGroupController::class,'index'])->middleware(['auth:sanctum']);

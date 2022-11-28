@@ -19,15 +19,19 @@ use App\Http\Controllers\CurrencyController;
 
 Route::get('/clientarea', function () {
     return view('vue');
-})->middleware(['auth:sanctum']);;
+})->middleware(['auth:sanctum']);
 
 Route::get('/clientarea/cost_list', function () {
     return view('vue');
-})->middleware(['auth:sanctum']);;
+})->middleware(['auth:sanctum']);
 
 Route::get('/clientarea/create', function () {
     return view('vue');
-})->middleware(['auth:sanctum']);;
+})->middleware(['auth:sanctum']);
+
+Route::get('/clientarea/report', function () {
+    return view('vue');
+})->middleware(['auth:sanctum']);
 
 
 Route::get('/', function () {
@@ -42,7 +46,7 @@ Route::get('/costs/{subdays}', [CostController::class, 'index'])->middleware(['a
 Route::post('/costs', [CostController::class, 'store'])->middleware(['auth:sanctum']);
 Route::delete('/costs/{id}', [CostController::class, 'destroy'])->middleware(['auth:sanctum']);
 Route::put('/costs/{id}', [CostController::class, 'update'])->middleware(['auth:sanctum']);
-
+Route::post('/costs/report',[CostController::class,'report']);
 
 //CstGroups
 Route::get('cost-groups/{user_id}',[CostGroupController::class,'index'])->middleware(['auth:sanctum']);

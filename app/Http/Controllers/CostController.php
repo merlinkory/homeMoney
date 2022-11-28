@@ -92,6 +92,33 @@ class CostController extends Controller
         return response(['code' => 6, 'message'=> 'cost not found'],200)->header('Content-Type', 'application/json');
     }
 
+    public function report(Request $request){
+
+        $year = $request->year;
+        $month = $request->month;
+
+        $costs = DB::table('costs')
+            ->join('cost_groups','costs.cost_group_id', 'cost_groups.id')
+            ->select('costs.*', 'cost_groups.name')
+            ->where('costs.user_id',Auth::id())
+            ->whereYear('costs.date', $year)
+            ->whereMonth('costs.date', $month)
+            ->get();
+
+        $output = [];
+
+        foreach ($costs as $cost){
+            if(!isset($output[$cost->currency]['groups'][$cost->name]))
+                $output[$cost->currency]['groups'][$cost->name] = 0;
+            $output[$cost->currency]['groups'][$cost->name] += $cost->amount;
+            if(!isset($output[$cost->currency]['total']))
+                $output[$cost->currency]['total'] = 0;
+            $output[$cost->currency]['total'] += $cost->amount;
+        }
+
+        return response(['code' => 1, 'data'=> $output],200)->header('Content-Type', 'application/json');
+    }
+
     protected function costValidate(array $costData){
         return Validator::make($costData,[
             'cost_group_id' => 'required',
