@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         async getCostGroups(){
-            let response = await axios.get('/cost-groups/1');//TODO: change user_id to dynamic
+            let response = await axios.get('/cost-groups');//TODO: change user_id to dynamic
             this.costGroups = response.data.data;
             console.log(this.costGroups);
         },

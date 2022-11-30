@@ -5,6 +5,7 @@
                 <router-link to="/">затраты</router-link> /
                 <router-link to="/create">создать</router-link> /
                 <router-link to="/report">отчеты</router-link> /
+                <router-link to="/groups">группы</router-link> /
             </el-header>
             <el-main>
                 <router-view></router-view>

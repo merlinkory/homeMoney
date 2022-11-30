@@ -5,7 +5,7 @@
                 {{ date }}
             </el-col>
         </el-row>
-        <el-row v-for="cost in data.costs" class="cost_row">
+        <el-row v-for="cost in data.costs" class="cost_row" @dblclick="showEditForm(cost)">
             <el-col :span="10">
                 {{cost.name}}
             </el-col>
@@ -28,6 +28,9 @@
             </li>
         </ul>
     </div>
+    <div id="edit_form" style="visibility: hidden">
+        форма редактирвания
+    </div>
 </template>
 
 <script>
@@ -41,6 +44,10 @@ export default {
     methods:{
         getParseCurrencyValue(amount, currencyCode){
             return new Intl.NumberFormat("ru", {currency: currencyCode}).format(amount);
+        },
+        showEditForm(cost){
+            // let editFormDiv = document.getElementById('edit_form');
+            // editFormDiv.visible = true;
         },
         async deleteCost(id){
             if(!confirm('Вы уверены в удаление ?')) return;
