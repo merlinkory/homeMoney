@@ -61,7 +61,7 @@ export default {
             }
         },
         async getCosts(){
-            let response = await axios.get('/costs/2');
+            let response = await axios.get('/costs/7');
             if(response.status === 200){
                 this.costList = response.data.data;
                 console.log(response.data);
