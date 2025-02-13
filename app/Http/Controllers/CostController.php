@@ -15,7 +15,7 @@ class CostController extends Controller
     public function index (Request $request){
 
         $cb = new Carbon(); // Carbon init
-        $date = $cb->subDays($request->subdays);
+        $date = $cb->subDays(14);
 
         $costs = DB::table('costs')
             ->join('cost_groups','costs.cost_group_id', 'cost_groups.id')
